@@ -1,0 +1,9 @@
+name: 16S_project
+channels: 
+	- conda-forge
+	- base
+	- R
+dependencies:
+	- r-base
+	- r-tidyverse
+	- wget
