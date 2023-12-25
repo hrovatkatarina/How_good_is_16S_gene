@@ -21,7 +21,10 @@ df_boxplot_ANI <- df_strain %>%
   ggplot(aes(x = Distancee, y = Distance)) +
   geom_boxplot(width = 0.4, outlier.shape = NA) +
   geom_jitter(aes(colour = Genus), width = 0.2, height = 0, alpha = 0.8, size = 2.5) +
-  scale_color_manual(values = c("Bacillus" = "#458B74","Bradyrhizobium" = "#EE799F", "Pseudomonas" = "#1874CD", "Rhizobium" = "#984ea3", "Streptomyces" = "#FFD700")) +
+  scale_color_manual(
+    values = c("Bacillus" = "#458B74","Bradyrhizobium" = "#EE799F", "Pseudomonas" = "#1874CD", "Rhizobium" = "#984ea3", "Streptomyces" = "#FFD700"),
+    labels = c(expression(italic("Bacillus")), expression(italic("Bradyrhizobium")), expression(italic("Pseudomonas")), expression(italic("Rhizobium")),
+               expression(italic("Streptomyces")))) +
   #geom_text(data = labels_wil, aes(x = Region, y = pos, label = Letters_wilcox), vjust = -0.1) +
   ylab("JRF distance: full 16S tree to ANI dendrogram")+
   xlab("")+
@@ -29,7 +32,7 @@ df_boxplot_ANI <- df_strain %>%
         panel.grid.minor = element_blank(),
         axis.title.y = element_text(size = 13),
         axis.text.x = element_text(size = 10),
-        legend.text=element_text(size = 11),
+        legend.text=element_text(size = 11, hjust = 0),
         legend.title = element_text(size = 13),
         legend.position = c(0.85, 0.82))
 ggsave("Boxplot_1f.png", df_boxplot_ANI, width = 6.8, height = 6)

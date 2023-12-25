@@ -37,7 +37,7 @@ plots <- lapply(genera, function(genus) {
   plt <- ggplot(df)
   plt <- plt + geom_line(aes_string(x = "Base_Position", y = genus), lwd=1) +
     labs(x = "Position along 16S gene", y = "Standardized entropy", title = genus) +
-    theme(plot.title = element_text(size = 15), 
+    theme(plot.title = element_text(face = "italic", size = 15), 
           axis.title.x = element_text(size = 12), 
           axis.title.y = element_text(size = 12))
   plt <- plt + theme_bw() + 

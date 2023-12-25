@@ -9,16 +9,17 @@ df_box_plot <- df_boxplot %>%
   ggplot(aes(x = Region, y = Distance)) +
   geom_boxplot(width = 0.4, outlier.shape = NA) +
   geom_jitter(aes(colour = Genus), width = 0.2, height = 0, alpha = 0.8, size = 2.5) +
-  scale_color_manual(values = c("Actinoplanes" = "#e41a1c",
-                                "Azospirillum" = "#ff7f00", "Cupriavidus" = "#a6d96a", 
-                                "Ensifer" = "#984ea3", "Massilia" = "#1a9641")) +
+  scale_color_manual(
+     values = c("Actinoplanes" = "#e41a1c","Azospirillum" = "#ff7f00", "Cupriavidus" = "#a6d96a", "Ensifer" = "#984ea3", "Massilia" = "#1a9641"),
+     labels = c(expression(italic("Actinoplanes")), expression(italic("Azospirillum")), expression(italic("Cupriavidus")), expression(italic("Ensifer")),
+               expression(italic("Massilia")))) +
   ylab("JRF distance to single-copy marker genes tree")+
   xlab("")+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.y = element_text(size = 13),
         axis.text.x = element_text(size = 10),
-        legend.text=element_text(size = 11),
+        legend.text=element_text(size = 11, hjust = 0),
         legend.title = element_text(size = 13),
         legend.position = c(0.87, 0.21)) +
   stat_compare_means(label = "p.signif", ref.group = "ANI")

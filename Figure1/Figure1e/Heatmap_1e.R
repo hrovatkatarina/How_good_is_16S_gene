@@ -19,6 +19,10 @@ sorted_rows <- c("Bacillus", "Streptomyces", "Actinoplanes", "Azospirillum", "Br
 dfJRF <- as.matrix(df_zscore)
 dfJRF_sorted <- dfJRF[match(sorted_rows, rownames(dfJRF)), , drop = FALSE]
 
+newnames <- lapply(
+  rownames(dfJRF_sorted),
+  function(x) bquote(italic(.(x))))
+
 Class <- data.frame(Class = c("Bacilli", "Actinomycetia", "Actinomycetia", "Alphaproteobacteria", 
                               "Alphaproteobacteria", "Alphaproteobacteria", "Alphaproteobacteria", 
                               "Alphaproteobacteria", "Gammaproteobacteria", "Gammaproteobacteria", 
@@ -37,6 +41,7 @@ plt1JRF <- pheatmap(dfJRF_sorted,
                     cellheight = 20,
                     border_color = NA,
                     gaps_row = 1:16,
+		    labels_row = as.expression(newnames),
                     color = rev(hcl.colors(50, "Reds")),
                     annotation_colors = order_color,
                     annotation_row = Class,

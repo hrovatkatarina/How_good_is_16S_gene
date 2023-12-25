@@ -30,7 +30,7 @@ kmer.pca.plot <- autoplot(kmer.pca, data = name_df, colour = 'black', shape = 'G
         panel.grid.minor.x = element_blank(),
         panel.grid.minor.y = element_blank(),
         panel.grid.major.y = element_blank(),
-        #legend.position='none',
+        legend.text=element_text(size = 11, hjust = 0, face="italic"),
         plot.title = element_text(size = 14.5))
 
 kmer.pca.plot_final <- kmer.pca.plot + 
