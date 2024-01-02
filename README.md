@@ -12,7 +12,7 @@ This repository contains code used to perform the analysis reported in Hrovat et
 All genome IDs of genomes used in analysis are provided in [Genomes](./Genomes) and can be downloaded for each genera separatly from BV-BRC database using command:
 
 ```bash
-for i in `cat genome_list.txt`; do wget -qN "ftp://ftp.bvbrc.org/genomes/$i/$i.fna";
+for i in `cat genus.txt`; do wget -qN "ftp://ftp.bvbrc.org/genomes/$i/$i.fna";
 done
 ```
 
