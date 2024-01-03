@@ -1,5 +1,7 @@
 library(ggplot2)
 library(dplyr)
+library(ggpubr)
+library(grid)
 
 entropy_data <- read.csv('Smooth_std_entropy.csv', header = F)
 
@@ -11,8 +13,12 @@ entropy <- entropy[-1,]
 entropys <- as.data.frame(sapply(entropy, as.numeric))
 
 base_position <- 1:1494
-df <- cbind('Base_Position' = base_position, entropys)
-df <- as.data.frame(df)
+df1 <- cbind('Base_Position' = base_position, entropys)
+df2 <- as.data.frame(df1)
+df <- df2 %>% 
+  dplyr::select(Base_Position, Actinoplanes, Azospirillum, Bacillus, Bradyrhizobium, Burkholderia, Ensifer,
+                Enterobacter, Massilia, Mesorhizobium, Pseudomonas, Serratia, Streptomyces,
+                Xanthomonas, Xylella)
 
 # parameters
 # region title offset
@@ -29,19 +35,15 @@ pc='grey'
 ac = 'dark red'
 
 genera <- colnames(df)[-1]
-genera
 
 plots <- lapply(genera, function(genus) {
   
-  #df$value_n <- entropy / max(entropy, na.rm=T)
   plt <- ggplot(df)
   plt <- plt + geom_line(aes_string(x = "Base_Position", y = genus), lwd=1) +
-    labs(x = "Position along 16S gene", y = "Standardized entropy", title = genus) +
-    theme(plot.title = element_text(face = "italic", size = 15), 
-          axis.title.x = element_text(size = 12), 
-          axis.title.y = element_text(size = 12))
+    labs(title = genus) +
+    theme(plot.title = element_text(face = "italic", size = 15))
   plt <- plt + theme_bw() + 
-    scale_y_continuous(limits = c(-0.23, 1.06), 
+    scale_y_continuous(name = "", limits = c(-0.23, 1.06), 
                        breaks = c(0, 0.25, 0.5, 0.75, 1), 
                        labels = c("0.00", "0.25", "0.50", "0.75", "1.00"))
   
@@ -105,9 +107,16 @@ plots <- lapply(genera, function(genus) {
   plt <- plt + annotate('segment', x=877, xend=1466, y=-0.04-5*n, yend=-0.04-5*n, colour=ac, alpha=ra)
   plt <- plt + annotate('text', x=877 + (1466-877)/2, y=-0.04-6.5*n, label='V6-V9', colour=ac, cex=3)
   
-  plt <- plt + theme(panel.grid = element_blank())
-  
-  file_name <- paste0(genus, "_Entropy_plot.png")
-  
-  ggsave(file_name, plot = plt, width = 8, height = 5) 
+  plt <- plt + theme(panel.grid = element_blank(),
+                     plot.title = element_text(face = "italic", size = 15), 
+                     axis.title.x = element_blank(), 
+                     axis.title.y = element_blank())
+  return(plt)
 })
+
+figure <- ggarrange(plotlist = plots, ncol = 3 , nrow = 5)
+figure1 <- annotate_figure(figure, 
+                           left = textGrob("Standardized entropy", rot = 90, vjust = 1, gp = gpar(cex = 2)),
+                           bottom = textGrob("Position along 16S gene", gp = gpar(cex = 2)))
+
+ggsave("Supp_fig1.png", plot = figure1, width = 20, height = 25)

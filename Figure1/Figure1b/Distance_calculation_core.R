@@ -1,7 +1,7 @@
 library(TreeDist)
 library(ggtree)
 
-# Distances: ANI, 16S and V-regions vs core-genome tree (for boxplot).
+# Jaccard-Robinson-Foulds distances: ANI, 16S and V-regions vs core-genome tree (for boxplot).
 
 genera <- c("Actinoplanes", "Azospirillum", "Cupriavidus", "Ensifer", "Massilia")
 distance_table <- data.frame(Genus = character(), Distance = numeric())

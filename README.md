@@ -18,4 +18,4 @@ done
 
 ## Analysis
 
-Code and data to reproduce Figure 1 a-f is in [Figure1](./Figure1)
+The code and data necessary to reproduce the analysis and generate each panel in Figure 1 (a-f) can be accessed in the Figure1 directory.

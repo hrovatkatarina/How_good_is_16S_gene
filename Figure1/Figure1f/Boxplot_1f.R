@@ -48,3 +48,22 @@ df_boxplot_ANI2 <- df_strain2 %>%
   stat_compare_means(method = 'anova', label.x.npc = 0.01)
 ggsave("Boxplot_1f.png", df_boxplot_ANI2, width = 6.8, height = 7)
 df_boxplot_ANI2
+
+# Supplementary figure 2: pearson correlation
+
+data_cor <- df_strain %>% 
+  filter(Distancee == "One genome per ANI group") %>% 
+  mutate(ANI_groups = case_when(
+   Genus == "Bacillus" ~ 126,
+   Genus == "Pseudomonas" ~ 291,
+   Genus == "Rhizobium" ~ 119,
+   Genus == "Bradyrhizobium" ~ 79,
+   Genus == "Streptomyces" ~ 220
+ ))
+
+plot_pearson <- ggscatter(data_cor, x = "ANI_groups", y = "Distance", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "Number of ANI groups", ylab = "JRF Distance")
+plot_pearson
+ggsave("Pearson_correlation.png", plot_pearson, width = 6.5, height = 4.5)

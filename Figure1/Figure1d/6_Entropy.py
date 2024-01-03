@@ -59,7 +59,7 @@ for i in range(1, 1495):
 
 entropy_df = pd.DataFrame(entropy_data, index=genera)
 entropy_df.to_csv('Data/Std_entropy.csv', index=True, header=False)
-print(entropy_df.head())
+#print(entropy_df.head())
 
 # Save smooth std entropy to csv
 entropy_data_s = {}

@@ -10,8 +10,11 @@ fixed_fasta_text <- gsub("U", "T", fasta_text)
 fixed_fasta_file <- tempfile() 
 writeLines(fixed_fasta_text, fixed_fasta_file)
 
+
+# Import multiple sequence alignment of full-length 16S rRNA gene 
 dna_seqs <- readDNAStringSet(fixed_fasta_file)
 
+# Calculate oligonulcleotide frequency
 kmer_freq_nonames <- oligonucleotideFrequency(dna_seqs, width=4, step=1,
                                               as.prob=FALSE, as.array=FALSE,
                                               fast.moving.side="right", with.labels=TRUE)
@@ -20,6 +23,7 @@ kmer_freq_nonames <- oligonucleotideFrequency(dna_seqs, width=4, step=1,
 Genus <- sapply(strsplit(names(dna_seqs)," "), `[`, 2)
 name_df <- as.data.frame(Genus)
 
+# PCA
 kmer.pca <- prcomp(kmer_freq_nonames,
                    center = TRUE,
                    scale. = TRUE)

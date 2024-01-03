@@ -64,7 +64,6 @@ distance_tableJRF <- cbind(distance_table_outputJRF, Region = regions)
 write.csv(distance_tableJRF, 'JRF_disatnce_ANI.csv', row.names = FALSE)
 #write.csv(tableMCI, 'MCI_ANI.csv')
 
-# Distances: 16S and one per ANI group vs ANI (for genera with a lot of genomes)
 
 
 

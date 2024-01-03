@@ -1,10 +1,8 @@
 library(ggplot2)
 library(dplyr)
 
-# Upload file
-args <- commandArgs(trailingOnly = TRUE)
-file_name <- args[1]
-
+# Upload entropy values
+file_name <- "Data/Smooth_std_entropy.csv"
 entropy_data <- read.csv(file_name, header = F)
 
 colnames(entropy_data)[1] <- 'Genus'
