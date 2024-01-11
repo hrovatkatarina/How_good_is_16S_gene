@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Producing core-genome alignment with Roary.
+# As input it takes annotated gff3 files produced by Prokka.
+
 cd Data/fna/gff
 
 #For genus Actinoplanes and Ensifer

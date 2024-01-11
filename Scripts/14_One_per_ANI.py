@@ -11,7 +11,7 @@ def select_one_per_ANI_group(genus, iteration):
     and writes the 16S sequences of selected genomes to a fasta file.
     """
 
-    dir_ANI_table = f"C:{genus}\\ANIclustermap_result_new\\cluster_table_95.tsv"
+    dir_ANI_table = f"C:Data/{genus}/ANIclustermap_result_new/cluster_table_95.tsv"
 
     # Read the tab file and store genome IDs and group numbers in a dictionary
     group_dict = {}
@@ -32,7 +32,7 @@ def select_one_per_ANI_group(genus, iteration):
         selected_genome_ids.append(random_genome_id)
 
     # Iterate over the fasta files and filter records based on selected genome IDs
-    fasta_file = f"C:\\Users\\Uporabnik\\Desktop\\Wageningen\\PCA_MSA\\My_MSA_ok\\{genus}_full16S.fasta"
+    fasta_file = f"Data/{genus}_full16S.fasta"
 
     filtered_records = []
 
@@ -40,15 +40,15 @@ def select_one_per_ANI_group(genus, iteration):
         if record.id in selected_genome_ids:
             filtered_records.append(record)
 
-    output_file = f"C:\\Users\\Uporabnik\\Desktop\\Wageningen\\ANI\\{genus}\\{genus}_one_per_ANI_group_{iteration}.fasta"
+    output_file = f"Data/{genus}/{genus}_one_per_ANI_group_{iteration}.fasta"
     SeqIO.write(filtered_records, output_file, "fasta")
-    print(output_file, "file created, number of seq=", len(filtered_records))
+    #print(output_file, "file created, number of seq=", len(filtered_records))
 
-    filenames_output = f"C:\\Users\\Uporabnik\\Desktop\\Wageningen\\ANI\\{genus}\\{genus}_filenames_oneperANI_{iteration}.txt"
+    filenames_output = f"Data/{genus}/{genus}_filenames_oneperANI_{iteration}.txt"
     with open(filenames_output, 'w') as outfile:
         for number in selected_genome_ids:
             outfile.write(str(number) + ".fna\n")
-        print(outfile, "created")
+        #print(outfile, "created")
 
 
 genera = ["Bacillus", "Pseudomonas", "Streptomyces", "Rhizobium", "Bradyrhizobium"]

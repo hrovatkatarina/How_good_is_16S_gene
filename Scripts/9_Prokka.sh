@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Whole genome annotation with Prokka. This step is necessary to determine core genes with Roary tool.
+
 cd Data/fna
 
 for file in *.fna

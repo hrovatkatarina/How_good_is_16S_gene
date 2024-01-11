@@ -5,12 +5,17 @@ library(readr)
 library(janitor)
 
 mydir <- getwd()
-print(mydir)
+#print(mydir)
 
+# This script will filter genomes based on genome status, genome quality and number of contigs. 
+# It generates list of genomes ID to download from BV-BRC database.
+
+# Input file: Download an Excel file from the BV-BRC database by initiating a search using the genus name of interest. 
+# Subsequently, implement a filter on the Genus column to specifically select genomes associated with the specified genus. 
+# Rename excel file to 'my_genomes.xslx'.
 
 # Upload file
-args <- commandArgs(trailingOnly = TRUE)
-excel_file <- args[1]
+excel_file <- "my_genomes.xslx"
 my_data <- read_excel(excel_file)
 
 # Filter: complete genomes
@@ -24,17 +29,14 @@ filtered_data <- function(data_name){
     mutate(nm_contigs = contigs - plasmids) %>% 
     filter(nm_contigs <= 100)
   nm_sp <- nrow(data)
-  print(nm_sp)
   return(data.frame(data))
 }
 
-#filtered <- lapply(my_data, filtered_data)
 filtered_complete <- filtered_data(my_data)
 
 
 #Write csv and tsv file
 write.csv(filtered_complete, "filtered_complete.csv")
-print("File created")
 
 data_c <- filtered_complete %>% 
   select(genome_id) %>% 
@@ -52,7 +54,6 @@ wgs_data <- function(data_name,i){
     mutate(nm_contigs = contigs - plasmids) %>% 
     filter(nm_contigs <= 100) 
   nm_sp <- nrow(data)
-  print(nm_sp)
   return(data.frame(data))
 }
 

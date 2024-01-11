@@ -1,17 +1,19 @@
 import pandas as pd
 import os
 
+# This script groups genomes into clusters based on their ANI scores, using 95% identity threshold.
+
 # list of directories
 genera = ["Actinoplanes", "Azospirillum", "Bacillus", "Bradyrhizobium", "Burkholderia", "Cupriavidus", "Ensifer",
           "Enterobacter", "Massilia", "Mesorhizobium", "Pseudomonas", "Rhizobium", "Serratia", "Streptomyces",
           "Xanthomonas", "Xylella"]
 
 for genus in genera:
-    directory = f"{genus}\\ANIclustermap_result"
+    directory = f"Data/{genus}/ANIclustermap_result_new"
 
     matrix_tsv_file = os.path.join(directory, "ANIclustermap_matrix.tsv") # ANIclustermap_matrix.tsv
     cluster_ani_thr = 95.0
-    cluster_tsv_file = os.path.join(directory, "cluster_table_95.tsv")  # Output cluster table file
+    cluster_tsv_file = os.path.join(directory, "cluster_table_95.tsv") # Output cluster table file
 
     # Parse cluster ANI matrix
     df = pd.read_table(matrix_tsv_file)
@@ -36,5 +38,4 @@ for genus in genera:
         "cluster_id": genome_name2cluster_id.values(),
     }
     cluster_table_df = pd.DataFrame(cluster_table_dict)
-    #print("Table created", genus)
     cluster_table_df.to_csv(cluster_tsv_file, sep="\t", index=False)

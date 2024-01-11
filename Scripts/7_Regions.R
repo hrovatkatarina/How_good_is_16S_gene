@@ -3,7 +3,7 @@ library(stringr)
 library(dplyr)
 
 ###############################################################################
-# Get start and stop positions of variable regions
+# Get start and stop positions of variable regions based on primer pairs
 ###############################################################################
 
 # Import Multiple Sequence Alignment
@@ -65,7 +65,7 @@ extract_and_write <- function(start, end, prefix) {
   
   # Write each group of sequences to a separate file
   lapply(names(sequences_by_genus), function(genus) {
-    writeXStringSet(sequences_by_genus[[genus]], format = "fasta", filepath = paste0("Data/",genus, "_", prefix, ".fasta"))
+    writeXStringSet(sequences_by_genus[[genus]], format = "fasta", filepath = paste0("Data/",genus,"/",genus, "_", prefix, ".fasta"))
   })
 }
 

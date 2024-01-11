@@ -6,6 +6,12 @@ import matplotlib.pyplot as pylab
 import numpy as np
 import shutil
 
+# This script retrieves the longest 16S sequence predicted with barrnap (in gff directory) for each genome, 
+# rermove outliers - too long or too short sequences and 
+# write fasta file with 16S sequences of all genomes in each genus (barrnap_longest_16S.fasta). 
+# fna files of the genomes, where there was no 16S rRNA sequence found or sequence was too short or too long, 
+# will be moved to a fna_out directory. These genomes are excluded from further analysis.
+
 directory_path = "Data/gff"
 missing_16s_fna = "Data/missing_16S.txt"
 
@@ -114,27 +120,3 @@ for file in missing_files + short_files:
     source_path = os.path.join(source_dir, file)
     dest_path = os.path.join(dest_dir, file)
     shutil.move(source_path, dest_path)
-
-# #list of directories
-# genera = ["Agrobacterium", "Aminobacter", "Azotobacter", "Citrobacter", "Duganella", "Kitasatospora",
-#           "Micromonospora", "Nitrospirillum", "Paenibacillus", "Paraburkholderia", "Pseudoxanthomonas",
-#           "Rahnella", "Ralstonia", "Rhodopseudomonas", "Sinorhizobium"]
-#
-# combined_records = []
-# combined_output_file = "C:\\Users\\Uporabnik\\Desktop\\Wageningen\\Database_new\\Filtered\\fasta_all.fasta"
-#
-# for genus in genera:
-#     infile = f"C:\\Users\\Uporabnik\\Desktop\\Wageningen\\Database_new\\Filtered\\{genus}\\gff\\barrnap_longest_16S.fasta"
-#     outfile = f"C:\\Users\\Uporabnik\\Desktop\\Wageningen\\Database_new\\Filtered\\{genus}\\gff\\longest_16S_genusname.fasta"
-#
-#     records2 = SeqIO.parse(infile, "fasta")
-#     with open(outfile, 'w') as myfile:
-#         for record in records2:
-#             description_parts = record.description.split()
-#             description_parts.insert(1, genus)
-#             record.description = " ".join(description_parts)
-#             print(record.description)
-#             #SeqIO.write(record, myfile, "fasta")
-#             combined_records.append(record)
-#             with open(combined_output_file, 'w') as combined_file:
-#                 SeqIO.write(combined_records, combined_file, "fasta")

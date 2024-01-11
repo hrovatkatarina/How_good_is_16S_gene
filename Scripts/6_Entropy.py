@@ -2,6 +2,10 @@ from Bio import SeqIO, AlignIO
 import numpy as np
 import pandas as pd
 
+# This script calculates Shannon entropy across 16S rRNA gene from multiple sequence alignment
+# Ouptputs: standardized entropy and standardized smoothen entropy values for each base position
+# for each analyzed genus individually.
+
 # Save MSA for each genus in separate fasta file
 infile = "Data/full16S_MSAall.fasta"
 
@@ -10,18 +14,17 @@ genera_set = set()
 for record in SeqIO.parse(infile, "fasta"):
     genus = record.description.split()[1]
     genera_set.add(genus)
-    output_file = f"Data/{genus}_new.fasta"
+    output_file = f"Data/{genus}/{genus}_new.fasta"
     with open(output_file, "a") as f:
         SeqIO.write(record, f, "fasta")
 
 entropy_matrix = np.empty((0, 1494))
 entropy_matrix_s = np.empty((0, 1494))
 genera = list(genera_set)
-print(genera)
 
 for genus in genera:
     #infile = "Cupriavidus_new.fasta"
-    infile = f"Data/{genus}_new.fasta"
+    infile = f"Data/{genus}/{genus}_new.fasta"
     alignment_infile = AlignIO.read(infile, 'fasta')
 
     # convert the alignment to a numpy array
@@ -59,7 +62,6 @@ for i in range(1, 1495):
 
 entropy_df = pd.DataFrame(entropy_data, index=genera)
 entropy_df.to_csv('Data/Std_entropy.csv', index=True, header=False)
-print(entropy_df.head())
 
 # Save smooth std entropy to csv
 entropy_data_s = {}
@@ -68,7 +70,6 @@ for i in range(1, 1495):
 
 entropy_df_s = pd.DataFrame(entropy_data_s, index=genera)
 entropy_df_s.to_csv('Data/Smooth_std_entropy.csv', index=True, header=False)
-print("CSV created")
 
 
 
