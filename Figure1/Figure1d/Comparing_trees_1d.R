@@ -13,9 +13,8 @@ result <- pvclust(my_m, method.dist="cor", method.hclust="average", nboot=1000, 
 tree <- as.phylo(result$hclust)
 
 T1 <- ggtree(result)+
-  geom_text(data=result, aes(label=bp), size = 2, hjust = -0.3)+ #verzija 2 za dodajanje bootstrap values
+  geom_text(data=result, aes(label=bp), size = 2, hjust = -0.3)+
   geom_tiplab(align = TRUE, size = 2) +
-  scale_y_reverse()+
   coord_cartesian(clip = "off")
 T1
 
@@ -27,7 +26,6 @@ T2 <- ggtree(tree2) +
   geom_text2(aes(subset = !isTip, label=label), size = 2, hjust = -0.3) + 
   geom_tiplab(hjust =1, align = TRUE, size = 2)+
   scale_x_reverse()+
-  scale_y_reverse()+
   coord_cartesian(clip = "off")
 T2
 
@@ -65,7 +63,6 @@ T2 <- ggtree(tree2) +
   geom_text2(aes(subset = !isTip, label=label), size = 2, hjust = -0.3) + 
   geom_tiplab(hjust =1, align = TRUE, size = 2)+
   scale_x_reverse()+
-  scale_y_reverse()+
   coord_cartesian(clip = "off")
 T2
 

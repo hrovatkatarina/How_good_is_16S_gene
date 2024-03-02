@@ -4,72 +4,69 @@ library(dplyr)
 
 ###############################################################################
 # Get start and stop positions of variable regions based on primer pairs
+# and make separate fasta files of all different V-regions for each genus
 ###############################################################################
 
 # Import Multiple Sequence Alignment
 
-file_name <- "Data/full16S_MSAall.fasta"
+file_name <- "full16S_MSAall.fasta"
 
 fasta_file <- file_name
 fasta_text <- readLines(fasta_file)
-fixed_fasta_text <- gsub("U", "T", fasta_text)
-fixed_fasta_file <- tempfile() 
-writeLines(fixed_fasta_text, fixed_fasta_file)
+sub_fasta_text <- gsub("U", "T", fasta_text)
+sub_fasta_file <- tempfile() 
+writeLines(sub_fasta_text, sub_fasta_file)
 
-dna_seqs <- readDNAStringSet(fixed_fasta_file)
+dna_seqs <- readDNAStringSet(sub_fasta_file)
 
-extract_position <- function(primer, start_position, reverse_complement) {
-  # If the primer needs to be reverse complement
-  if (reverse_complement) {
-    primer <- DNAString(primer)
-    primer <- reverseComplement(primer)
-  }
+V1F <- DNAString("AGAGTTTGATCMTGGCTCAG")
+V3R <- reverseComplement(DNAString("TTACCGCGGCKGCTGGCACG"))
+V3F <- DNAString("CCTACGGGNGGCWGCAG")
+V4R <- reverseComplement(DNAString("GGACTACNVGGGTWTCTAAT"))
+V4F <- DNAString("GTGYCAGCMGCCGCGGTAA")
+V5R <- reverseComplement(DNAString("CCGYCAATTYMTTTRAGTTT"))
+V6F <- DNAString("AATTGACGGGGRCCCGC")
+V8R <- reverseComplement(DNAString("ACGGGCRGTGWGTRCAA"))
+V9R <- reverseComplement(DNAString("TACGGYTACCTTGTTAYGACTT"))
+
+
+extract_and_write <- function(primer_f, primer_r, prefix) {
   
-  position <- vmatchPattern(primer, dna_seqs, fixed = FALSE, max.mismatch = 3)
-  start_position <- start(position[[1]])
+  seq_found <- c()
   
-  # If the primer is reverse_complement, add the length of the primer
-  if (reverse_complement) {
-    start_position <- start_position + length(primer)
-  }
-  
-  return(start_position)
-}
-
-V1F <- extract_position("AGAGTTTGATCMTGGCTCAG", TRUE, FALSE)
-V3R <- extract_position("TTACCGCGGCKGCTGGCACG", FALSE, TRUE)
-V3F <- extract_position("CCTACGGGNGGCWGCAG", TRUE, FALSE)
-V4R <- extract_position("GACTACHVGGGTATCTAATCC", FALSE, TRUE)
-V4F <- extract_position("GTGYCAGCMGCCGCGGTAA", TRUE, FALSE)
-V5R <- extract_position("CCGYCAATTYMTTTRAGTTT", FALSE, TRUE)
-V6F <- extract_position("AATTGACGGGGRCCCGC", TRUE, FALSE)
-V8R <- extract_position("ACGGGCRGTGWGTRCAA", FALSE, TRUE)
-V9R <- extract_position("TACGGYTACCTTGTTAYGACTT", FALSE, TRUE)
-START <- 1
-END <- length(dna_seqs[[1]])
-
-##########################################################################
-# Make separate fasta files of all different V-regions for each genus
-##########################################################################
-
-extract_and_write <- function(start, end, prefix) {
-  # Extract the subsequence
   subseqs <- lapply(seq_along(dna_seqs), function(i) {
-    subseq(dna_seqs[[i]], start = start, end = end)
+    
+    position_f <- matchPattern(primer_f, dna_seqs[[i]], fixed = FALSE, max.mismatch = 3)
+    position_r <- matchPattern(primer_r, dna_seqs[[i]], fixed = FALSE, max.mismatch = 3)
+    
+    if (length(position_f) > 0 && length(position_r) > 0) { 
+      seq_found <<- c(seq_found, i)
+      start <- start(position_f[1])
+      end <- start(position_r[1]) + length(primer_r)
+      # Extract the subsequence
+      subseq(dna_seqs[[i]], start = start, end = end)
+    } else {
+      print(paste("Failed to find primers for sequence", i))
+      NULL
+    }
   })
-  sequences <- DNAStringSet(subseqs, use.names = TRUE)
-  names(sequences) <- names(dna_seqs)
+  
+  subseqs <- Filter(Negate(is.null), subseqs)
+  
+  sequences <- DNAStringSet(subseqs)
+  
+  names(sequences) <- names(dna_seqs)[seq_found]
   
   # Split the sequences by genus
   sequences_by_genus <- split(sequences, sapply(strsplit(names(sequences), " "), `[`, 2))
   
   # Write each group of sequences to a separate file
   lapply(names(sequences_by_genus), function(genus) {
-    writeXStringSet(sequences_by_genus[[genus]], format = "fasta", filepath = paste0("Data/",genus,"/",genus, "_", prefix, ".fasta"))
+    writeXStringSet(sequences_by_genus[[genus]], format = "fasta", 
+                    filepath = paste0(genus, "_", prefix, ".fasta"))
   })
 }
 
-extract_and_write(START, END, "full16S")
 extract_and_write(V1F, V3R, "V1V3")
 extract_and_write(V3F, V4R, "V3V4")
 extract_and_write(V4F, V4R, "V4")

@@ -114,7 +114,7 @@ plots <- lapply(genera, function(genus) {
   return(plt)
 })
 
-figure <- ggarrange(plotlist = plots, ncol = 3 , nrow = 5)
+figure <- ggarrange(plotlist = plots, labels = c("a)","b)","c)","d)","e)","f)","g)","h)","i)","j)","k)","l)","m)","n)"), ncol = 3, nrow = 5)
 figure1 <- annotate_figure(figure, 
                            left = textGrob("Standardized entropy", rot = 90, vjust = 1, gp = gpar(cex = 2)),
                            bottom = textGrob("Position along 16S gene", gp = gpar(cex = 2)))
