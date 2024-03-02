@@ -15,6 +15,7 @@ df_box_plot <- df_boxplot %>%
                expression(italic("Massilia")))) +
   ylab("JRF distance to single-copy marker genes tree")+
   xlab("")+
+  coord_cartesian(ylim = c(0.1, 0.8)) +
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         axis.title.y = element_text(size = 13),
@@ -22,5 +23,5 @@ df_box_plot <- df_boxplot %>%
         legend.text=element_text(size = 11, hjust = 0),
         legend.title = element_text(size = 13),
         legend.position = c(0.87, 0.21)) +
-  stat_compare_means(label = "p.signif", ref.group = "ANI")
+  stat_compare_means(label = "p.signif", size = 7, label.y = 0.75, ref.group = "ANI")
 ggsave("Boxplot_1b.png", df_box_plot, width = 6.8, height = 5)
