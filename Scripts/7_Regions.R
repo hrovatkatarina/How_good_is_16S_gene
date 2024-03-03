@@ -46,7 +46,6 @@ extract_and_write <- function(primer_f, primer_r, prefix) {
       # Extract the subsequence
       subseq(dna_seqs[[i]], start = start, end = end)
     } else {
-      print(paste("Failed to find primers for sequence", i))
       NULL
     }
   })
