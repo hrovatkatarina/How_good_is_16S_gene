@@ -57,7 +57,7 @@ extract_and_write <- function(primer_f, primer_r, prefix) {
   # Write each group of sequences to a separate file
   lapply(names(sequences_by_genus), function(genus) {
     writeXStringSet(sequences_by_genus[[genus]], format = "fasta", 
-                    filepath = paste0(genus, "_", prefix, ".fasta"))
+                    filepath = paste0("Data\\",genus,"\\",genus, "_", prefix, ".fasta"))
   })
 }
 
@@ -73,5 +73,5 @@ extract_and_write(V6F, V9R, "V6V9")
 seq_by_genus <- split(dna_seqs, sapply(strsplit(names(dna_seqs), " "), `[`, 2))
 
 lapply(names(seq_by_genus), function(genus) {
-    writeXStringSet(seq_by_genus[[genus]], format = "fasta", filepath = paste0("C:\\Users\\Uporabnik\\Desktop\\Wageningen\\Review_paper\\Regions\\",genus, "_full16S.fasta"))
+    writeXStringSet(seq_by_genus[[genus]], format = "fasta", filepath = paste0("Data\\",genus,"\\",genus,"_full16S.fasta"))
 })
