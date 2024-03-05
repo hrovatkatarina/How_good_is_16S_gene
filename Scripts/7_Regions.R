@@ -30,17 +30,14 @@ V8R <- reverseComplement(DNAString("ACGGGCRGTGWGTRCAA"))
 V9R <- reverseComplement(DNAString("TACGGYTACCTTGTTAYGACTT"))
 
 
-extract_and_write <- function(primer_f, primer_r, prefix) {
-  
-  seq_found <- c()
-  
+extract_and_write <- function(primer_f, primer_r, prefix) { 
+  seq_f <- c()
   subseqs <- lapply(seq_along(dna_seqs), function(i) {
-    
     position_f <- matchPattern(primer_f, dna_seqs[[i]], fixed = FALSE, max.mismatch = 3)
     position_r <- matchPattern(primer_r, dna_seqs[[i]], fixed = FALSE, max.mismatch = 3)
     
     if (length(position_f) > 0 && length(position_r) > 0) { 
-      seq_found <<- c(seq_found, i)
+      seq_f <<- c(seq_f, i)
       start <- start(position_f[1])
       end <- start(position_r[1]) + length(primer_r)
       # Extract the subsequence
@@ -51,10 +48,8 @@ extract_and_write <- function(primer_f, primer_r, prefix) {
   })
   
   subseqs <- Filter(Negate(is.null), subseqs)
-  
   sequences <- DNAStringSet(subseqs)
-  
-  names(sequences) <- names(dna_seqs)[seq_found]
+  names(sequences) <- names(dna_seqs)[seq_f]
   
   # Split the sequences by genus
   sequences_by_genus <- split(sequences, sapply(strsplit(names(sequences), " "), `[`, 2))
@@ -72,3 +67,11 @@ extract_and_write(V4F, V4R, "V4")
 extract_and_write(V4F, V5R, "V4V5")
 extract_and_write(V6F, V8R, "V6V8")
 extract_and_write(V6F, V9R, "V6V9")
+
+# Write full 16S sequences by genus
+
+seq_by_genus <- split(dna_seqs, sapply(strsplit(names(dna_seqs), " "), `[`, 2))
+
+lapply(names(seq_by_genus), function(genus) {
+    writeXStringSet(seq_by_genus[[genus]], format = "fasta", filepath = paste0("C:\\Users\\Uporabnik\\Desktop\\Wageningen\\Review_paper\\Regions\\",genus, "_full16S.fasta"))
+})
