@@ -6,12 +6,12 @@ If you use this resource, please cite:
 
  > Hrovat, K., Dutilh, B. E., Medema, M. H., & Melkonian, C. (2024). Taxonomic resolution of different 16S rRNA variable regions varies strongly across plant-associated bacteria. In ISME Communications. Oxford University Press (OUP). https://doi.org/10.1093/ismeco/ycae034
 
-## Abstract
+## 🌿🦠 Abstract
 
 Plant-microbiome research plays a pivotal role in understanding the relationships between plants and their associated microbial communities, with implications for agriculture and ecosystem dynamics. Metabarcoding analysis on variable regions of the 16S ribosomal RNA (rRNA) gene remains the dominant technology to study microbiome diversity in this field. However, the choice of the targeted variable region might affect the outcome of the microbiome studies. In our in-silico analysis, we have evaluated whether the targeted variable region has an impact on taxonomic resolution in 16 plant-related microbial genera. Through a comparison of 16S rRNA gene variable regions with whole-genome data, our findings suggest that the V1-V3 region is generally a more suitable option than the widely used V3-V4 region for targeting microbiome analysis in plant-related genera. However, sole reliance on one region could introduce detection biases for specific genera. Thus, we are suggesting that while transitioning to full-length 16S rRNA gene and whole-genome sequencing for plant-microbiome analysis, the usage of genus-specific variable regions can achieve more precise taxonomic assignments. More broadly, our approach provides a blueprint to identify the most discriminating variable regions of the 16S rRNA gene for genus of interest.
 
 
-## Data availability
+## 🧬 Data availability
 
 All genome IDs of genomes used in analysis are provided in [Genomes](./Genomes) and can be downloaded for each genus separatly from BV-BRC database using command:
 
@@ -20,7 +20,7 @@ for i in `cat genus.txt`; do wget -qN "ftp://ftp.bvbrc.org/genomes/$i/$i.fna";
 done
 ```
 
-## Analysis
+## 🔎 Analysis
 
 The code and data necessary to reproduce the analysis and generate each panel in Figure 1 (a-f) can be accessed in the Figure1 directory.
 
