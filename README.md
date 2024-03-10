@@ -4,7 +4,7 @@
 
 If you use this resource, please cite:
 
- > Melkonian, C., Zorrilla, F., Kjærbølling, I. et al. Microbial interactions shape cheese flavour formation. Nat Commun 14, 8348 (2023). https://doi.org/10.1038/s41467-023-41059-2
+ > Hrovat, K., Dutilh, B. E., Medema, M. H., & Melkonian, C. (2024). Taxonomic resolution of different 16S rRNA variable regions varies strongly across plant-associated bacteria. In ISME Communications. Oxford University Press (OUP). https://doi.org/10.1093/ismeco/ycae034 
 
 ## Abstract
 
